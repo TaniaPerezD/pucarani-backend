@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Laberinto</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000000;
+    }
+    #laberinto {
+      position: fixed;
+      width: 1000px;  
+      height: 1000px;
+      border: 5px solid #333;
+      overflow: hidden; /* Oculta el contenido que sobresale */
+    }
+    #fondo {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://as1.ftcdn.net/v2/jpg/04/89/11/42/1000_F_489114227_4piH63TD1SsMlOgwH8kr88LirtrueZsc.jpg'); /* Ruta de la imagen de arbustos */
+      background-size: 30%;
+      filter: brightness(0.4); /* Filtro aplicado solo al fondo */
+      z-index: 0; 
+    }
+    .pared {
+    position: absolute;
+    background-image: url('https://thumbs.dreamstime.com/b/seamless-digital-woodland-pixel-camo-texture-vector-army-textile-print-forest-hunting-military-camouflage-pattern-dark-wood-190467068.jpg'); /* Ruta de la imagen de arbustos */
+    background-size:10%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7); /* Sombras para crear un efecto de profundidad */
+    filter: brightness(0.8);
+    transition: filter 0.2s ease;
+    }
+
+    #jugador {
+      position: absolute;
+      width: 70px;
+      height: 40px;
+      background-image: url('https://i.postimg.cc/6q2tx2kj/shibaderechita.gif');
+      filter: brightness(0.8);
+      background-size: 100%;
+      background-repeat: no-repeat;
+      overflow: visible;
+      z-index: 2000;
+      top: 10px;
+      left: 10px;
+    }
+    .enemigo {
+      position: absolute;
+      width: 50px;
+      height: 60px;
+      background-image: url('https://i.postimg.cc/JhbPHDKv/gatofantasma.gif');
+      
+      background-size: 100%;
+      background-repeat: no-repeat;
+      overflow: visible;
+      z-index: 2000;
+      filter: drop-shadow(0px 15px 15px rgb(255, 253, 237));
+        
+      top: 10px;
+      left: 10px;
+    }
+    
+    .meta {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-image: url('https://i.postimg.cc/yN5QFLyB/estrella.png');
+  background-size: cover; 
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  filter: drop-shadow(0px 8px 15px rgb(255, 230, 0));
+}
+.ucb {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-image: url('https://i.postimg.cc/x8GLCkXm/ucbito.gif');
+  background-size: cover; 
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  filter: drop-shadow(0px 8px 15px rgb(82, 152, 237));
+}
+.calabaza {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-image: url('https://i.postimg.cc/HxhyNrRL/calabaza.png');
+  background-size: cover; 
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  filter: drop-shadow(0px 20px 20px rgb(255, 166, 0));
+}
+.puerta {
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_orOvxwwReApF4bc1aANBCak8795YvAP1YA&s'); /* Ruta de la imagen de la puerta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0px 20px 20px rgb(77, 139, 73));
+}
+#estrellas-contenedor {
+  position: absolute;
+  color: yellow;
+  font-size: 8px;
+  font-weight: bold;
+  text-align: center;
+  pointer-events: none; /* Evitar que se pueda hacer clic en el contador */
+  z-index: 10000; 
+}
+
+
+.modal {
+      display: none; /* Ocultamos el modal por defecto */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro */
+      justify-content: center;
+      align-items: center;
+    }
+
+.modal-contenido {
+      position: relative; /* Hacer que el contenedor sea relativo para poder posicionar el botón */
+      background-color: white;
+      padding: 0px;
+      border-radius: 10px;
+      text-align: center;
+     
+  height: auto; /* Usa auto para que el alto se ajuste al contenido */
+  max-width: 900px; /* Establece un ancho máximo */
+    }
+
+.modal img {
+  max-width: 100%;
+  height: auto;
+}
+
+.boton {
+      position: absolute; /* Posiciona el botón de manera absoluta dentro del contenedor */
+      bottom: 50px; /* Ajusta la posición desde la parte inferior */
+      left: 50%; /* Centra el botón horizontalmente */
+      transform: translateX(-50%); /* Alinea el botón al centro */
+      color: white;
+      background-color: chocolate; /* Fondo blanco para el botón */
+      border: none; /* Sin borde */
+      padding: 10px 20px; /* Espaciado interno del botón */
+      cursor: pointer; /* Cambiar cursor a mano al pasar sobre el botón */
+      border-radius: 5px; /* Bordes redondeados */
+    }
+    .boton:hover{
+      color: rgb(0, 0, 0);
+      background-color: aliceblue;
+    }
+    #linterna {
+    position: absolute;
+      width: 80px; /* Cambia el ancho según sea necesario */
+      height: 80px; /* Cambia la altura según sea necesario */
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(250, 230, 52, 0.336) 0%, rgba(240, 240, 35, 0.664) 50%, rgba(0, 0, 0, 0) 100%);
+      pointer-events: none;
+      filter: blur(15px); /* Desenfoque para dar el efecto de luz */
+      z-index: 1; 
+    }
+  </style>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<body>
+  <audio id="musicaFondo" autoplay loop>
+    
+      <source src="musicafondo.mp3" type="audio/mpeg">
+     
+  </audio>
+  <audio id="musicaperdida">
+    
+    <source src="perdida.mp3" type="audio/mpeg">
+   
+</audio>
+<audio id="musicagana">
+    
+  <source src="win.mp3" type="audio/mpeg">
+ 
+</audio>
+  
+  <!-- Modal de Inicio -->
+<div id="modal-inicio" class="modal">
+  <div class="modal-contenido">
+    <img src="https://i.postimg.cc/1RHg6Qg7/inicio.png" alt="Inicio" />
+    <button class="boton" id="comenzar-btn">Comenzar</button>
+  </div>
+</div>
+  <!-- Modal de Inicio -->
+  <div id="modal-escape" class="modal">
+    <div class="modal-contenido">
+      <img src="https://i.postimg.cc/zGkKfYhP/menu.png" alt="Inicio" />
+      
+      <button class="boton" id="salirmenu-btn" style="bottom: 20%; ">Cerrar Menu</button>
+      <button class="boton" id="reiniciar-btn" style="bottom: 35%; background-color: darkred; ">Reiniciar Juego</button>
+    </div>
+  </div>
+
+<!-- Modal de Perdida -->
+<div id="modal-perdida" class="modal">
+  <div class="modal-contenido">
+    <img src="https://i.postimg.cc/7hqBfkCr/perdiste.png" alt="Perdiste" />
+    <button class="boton" id="reiniciar-btnperdida">Reiniciar Juego</button>
+  </div>
+</div>
+
+<!-- Modal de Victoria -->
+<div id="modal-victoria" class="modal">
+  <div class="modal-contenido">
+    <img src="https://i.postimg.cc/7LjBgR6b/ganaste.png" alt="Victoria" />
+    <button  class="boton" id="cerrar-btn">Cerrar</button>
+  </div>
+</div>
+
+  <div id="laberinto">
+    <div id="fondo"></div>
+    <div id="jugador"></div>
+    <div id="linterna"></div>
+    <div id="estrellas-contenedor">
+      <span id="estrellas-recolectadas">0</span> ⭐
+    </div>
+    
+    
+    <div id="enemigo1" class="enemigo"></div>
+    <div id="enemigo2" class="enemigo"></div>
+    <div id="enemigo3" class="enemigo"></div>
+    <div id="enemigo4" class="enemigo"></div>
+    <div id="enemigo5" class="enemigo"></div>
+    <div id="enemigo6" class="enemigo"></div>
+    <div class="puerta" style="top: 380px;left: 970px;" ></div>
+    <div class="calabaza" style="top: 5px;left: 10px;width: 40px;height: 40px;"></div>
+    <div class="calabaza" style="top: 65px;left: 430px;width: 40px;height: 40px;"></div>
+    <div class="calabaza" style="top: 238px;left: 810px;width: 40px;height: 40px;"></div>
+    <div class="calabaza" style="top: 400px;left: 60px;width: 40px;height: 40px;"></div>
+    <div class="calabaza" style="bottom: 270px;left: 110px;width: 40px;height: 40px;"></div>
+    <div class="calabaza" style="bottom: 10px;right: 410px;width: 40px;height: 40px;"></div>
+    <div class="calabaza" style="bottom: 200px;right: 160px;width: 40px;height: 40px;"></div>
+    <div class="calabaza" style="bottom: 310px;right: 410px;width: 40px;height: 40px;"></div>
+    <div class="meta" style="top: 250px;left: 60px;width: 40px;height: 40px;"></div>
+    <div class="ucb" style="top: 450px;left: 60px;width: 40px;height: 40px;"></div>
+    <div class="meta" style="top: 650px;left: 380px;width: 40px;height: 40px;"></div>
+    <div class="meta" style="bottom: 50px;right: 80px;width: 40px;height: 40px;"></div>
+    <div class="meta" style="top: 70px;right: 60px;width: 40px;height: 40px;"></div>
+    <div class="meta" style="bottom: 120px;left: 130px;width: 40px;height: 40px;"></div>
+    <div class="pared" style="top: 310px; left: 0px; width: 170px; height: 40px;"></div>
+    <!-- Paredes del laberinto -->
+    <div class="pared" style="top: 0px; left: 0px; width: 1000px; height: 1px;"></div>
+    <div class="pared" style="bottom: 0px; left: 0px; width: 1000px; height: 1px;"></div>
+    <div class="pared" style="top: 0px; left: 0px; width: 1px; height: 1000px;"></div>
+    <div class="pared" style="top: 0px; right: 0px; width: 1px; height: 1000px;"></div>
+    <div class="pared" style="top: 250px; left: 170px; width: 40px; height: 280px;"></div>
+    <div class="pared" style="top: 80px; left: 0px; width: 430px; height: 40px;"></div>
+    <div class="pared" style="top: 0px; right: 230px; width: 40px; height: 100px;"></div>
+    <div class="pared" style="top: 200px; right: 0px; width: 180px; height: 40px;"></div>  
+    <div class="pared" style="top: 0px; left: 0px; width: 1000px; height: 1px;"></div>
+    <div class="pared" style="bottom: 0px; left: 0px; width: 1000px; height: 1px;"></div>    
+    <div class="pared" style="top: 230px; left: 320px; width: 40px; height: 150px;"></div>
+    <div class="pared" style="top: 230px; left: 350px; width: 150px; height: 40px;"></div>
+    <div class="pared" style="bottom: 230px; left: 70px; width: 150px; height: 40px;"></div>
+    <div class="pared" style="bottom: 150px; right: 90px; width: 150px; height: 40px;"></div>
+    <div class="pared" style="top: 550px; left: 300px; width: 100px; height: 40px;"></div>
+    <div class="pared" style="top: 480px; right: 0px; width: 400px; height: 40px;"></div>
+    <div class="pared" style="top: 330px; right: 0px; width: 400px; height: 40px;"></div>
+    <div class="pared" style="top: 590px; left: 300px; width: 40px; height: 150px;"></div>
+    <div class="pared" style="top: 400px; left: 450px; width: 40px; height: 80px;"></div>
+    <div class="pared" style="bottom: 40px; left: 300px; width: 40px; height: 100px;"></div> 
+    <div class="pared" style="top: 600px; left: 600px; width: 40px; height: 110px;"></div>
+    <div class="pared" style="top: 700px; left: 300px; width: 400px; height: 40px;"></div>
+    <div class="pared" style="bottom: 0px; left: 600px; width: 40px; height: 170px;"></div>
+  </div>
+  
+  <script src="game.js"></script>
+</body>
+</html>
