@@ -17,7 +17,7 @@ sequelize.sync().then(() => {
 }).catch(error => console.log('Error al sincronizar la base de datos:', error));
 
 
-app.use('/api/libros', libroRoutes); // Agrega las rutas de libros
+app.use('/api/', libroRoutes); // Agrega las rutas de libros
 
 module.exports = app; 
 
