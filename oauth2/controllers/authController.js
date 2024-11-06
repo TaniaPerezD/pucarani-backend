@@ -29,30 +29,32 @@ const register = async (req, res) => {
 
 // Inicio de sesión
 const login = async (req, res) => {
-  const { nombre, password } = req.body;
+  const { nombre, password } = req.body; // Recibe los datos del cuerpo de la solicitud
 
   try {
     // Verifica si el usuario existe
-    const user = await User.findOne({ where: { usernnombreame } });
+    const user = await User.findOne({ where: { nombre } });
     if (!user) {
       return res.status(401).json({ message: 'Usuario no encontrado' });
     }
 
-    // Verifica la contraseña
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    // Verifica la contraseña (compara con `password_hash`)
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
-    // Genera el token
-    const payload = { id: user.id, username: user.username };
+    // Genera el token (usa el `nombre` y `rol` como payload si lo deseas)
+    const payload = { id: user.id, nombre: user.nombre, rol: user.rol };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+    // Responde con el token
     res.status(200).json({ message: 'Inicio de sesión exitoso', token });
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
 };
+
 // Obtener todos los usuarios registrados
 const getAllUsers = async (req, res) => {
   try {
