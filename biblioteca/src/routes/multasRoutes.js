@@ -1,4 +1,5 @@
 const express = require('express');
+console.log('Rutas de multas cargadas');
 const {
     getAllMultas,
     getMultasById,
