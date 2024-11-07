@@ -1,4 +1,5 @@
 const express = require('express');
+console.log('Rutas de libros cargadas');
 const {
   getAllLibros,
   getLibroById,

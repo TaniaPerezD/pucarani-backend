@@ -4,6 +4,11 @@ const cors = require('cors');
 require('dotenv').config();
 const sequelize = require('./config/database');
 const libroRoutes = require('./routes/libroRoutes'); 
+const prestamoRoutes = require('./routes/prestamoRoutes'); 
+const multaRoutes = require('./routes/multasRoutes'); 
+const devRoutes = require('./routes/devolucionesRoutes'); 
+const estRoutes = require('./routes/estadosRoutes'); 
+
 
 const app = express();
 
@@ -17,7 +22,11 @@ sequelize.sync().then(() => {
 }).catch(error => console.log('Error al sincronizar la base de datos:', error));
 
 
-app.use('/api/libros', libroRoutes); // Agrega las rutas de libros
+app.use('/api/libros/', libroRoutes); // Agrega las rutas de libros
+app.use('/api/prestamos/', prestamoRoutes);// Agrega las rutas de prestamos
+app.use('/api/multas/', multaRoutes);// Agrega las rutas de multas
+app.use('/api/devs/', devRoutes);// Agrega las rutas de devoluciones
+app.use('/api/estados/', estRoutes);// Agrega las rutas de devoluciones
 
 module.exports = app; 
 
