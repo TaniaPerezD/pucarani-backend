@@ -31,7 +31,7 @@ const Prestamo = sequelize.define('Prestamo', {
 }, 
 {
   timestamps: false,
-  tableName: 'libros'
+  tableName: 'prestamos'
 });
 
-module.exports = Libro;
+module.exports = Prestamo;
