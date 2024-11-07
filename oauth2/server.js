@@ -22,7 +22,7 @@ app.use('/api/user/', userRoutes); // Añades las rutas de usuario
 // Sincronización de la base de datos y arranque del servidor
 sequelize.sync()
   .then(() => {
-    app.listen(4000, () => {
+    app.listen(3000, () => {
       console.log('Servidor corriendo en http://localhost:3000');
     });
   })
