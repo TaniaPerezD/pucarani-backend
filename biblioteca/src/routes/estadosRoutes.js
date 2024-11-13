@@ -7,6 +7,7 @@ const {
     updateDev,
     deleteDev
 } = require('../controllers/estadosController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
