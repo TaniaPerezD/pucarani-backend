@@ -7,11 +7,12 @@ const {
   updateLibro,
   deleteLibro
 } = require('../controllers/libroController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
 // Ruta para obtener todos los libros
-router.get('/', getAllLibros);
+router.get('/',authMiddleware, getAllLibros);
 
 // Ruta para obtener un libro por ID
 router.get('/:id', getLibroById);

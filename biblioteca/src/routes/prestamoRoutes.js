@@ -7,22 +7,23 @@ const {
     updatePrestamo,
     deletePrestamo
 } = require('../controllers/prestamosController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
 // Ruta para obtener todos los libros
-router.get('/', getAllPrestamos);
+router.get('/',authMiddleware, getAllPrestamos);
 
 // Ruta para obtener un libro por ID
-router.get('/:id', getPrestamoById);
+router.get('/:id',authMiddleware, getPrestamoById);
 
 // Ruta para crear un nuevo libro
-router.post('/', createPrestamo);
+router.post('/',authMiddleware, createPrestamo);
 
 // Ruta para actualizar un libro
-router.put('/:id', updatePrestamo);
+router.put('/:id',authMiddleware, updatePrestamo);
 
 // Ruta para eliminar un libro
-router.delete('/:id', deletePrestamo);
+router.delete('/:id',authMiddleware, deletePrestamo);
 
 module.exports = router;
