@@ -8,6 +8,7 @@ const {
     deletePrestamo
 } = require('../controllers/prestamosController');
 const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 

@@ -7,22 +7,23 @@ const {
     updateMultas,
     deleteMultas
 } = require('../controllers/multasController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
 // Ruta para obtener todos los libros
-router.get('/', getAllMultas);
+router.get('/',authMiddleware, getAllMultas);
 
 // Ruta para obtener un libro por ID
-router.get('/:id', getMultasById);
+router.get('/:id',authMiddleware, getMultasById);
 
 // Ruta para crear un nuevo libro
-router.post('/', createMultas);
+router.post('/',authMiddleware, createMultas);
 
 // Ruta para actualizar un libro
-router.put('/:id', updateMultas);
+router.put('/:id',authMiddleware, updateMultas);
 
 // Ruta para eliminar un libro
-router.delete('/:id', deleteMultas);
+router.delete('/:id',authMiddleware, deleteMultas);
 
 module.exports = router;
