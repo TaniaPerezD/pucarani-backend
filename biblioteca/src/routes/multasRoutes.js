@@ -15,15 +15,15 @@ const router = express.Router();
 router.get('/',authMiddleware, getAllMultas);
 
 // Ruta para obtener un libro por ID
-router.get('/:id',authMiddleware, getMultasById);
+router.get('/:id', getMultasById);
 
 // Ruta para crear un nuevo libro
-router.post('/',authMiddleware, createMultas);
+router.post('/', createMultas);
 
 // Ruta para actualizar un libro
-router.put('/:id',authMiddleware, updateMultas);
+router.put('/:id', updateMultas);
 
 // Ruta para eliminar un libro
-router.delete('/:id',authMiddleware, deleteMultas);
+router.delete('/:id', deleteMultas);
 
 module.exports = router;

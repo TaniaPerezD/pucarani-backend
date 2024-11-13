@@ -12,18 +12,18 @@ const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Ruta para obtener todos los libros
-router.get('/',authMiddleware, getAllDev);
+router.get('/', getAllDev);
 
 // Ruta para obtener un libro por ID
-router.get('/:id',authMiddleware, getDevById);
+router.get('/:id', getDevById);
 
 // Ruta para crear un nuevo libro
-router.post('/',authMiddleware, createDev);
+router.post('/', createDev);
 
 // Ruta para actualizar un libro
-router.put('/:id',authMiddleware, updateDev);
+router.put('/:id', updateDev);
 
 // Ruta para eliminar un libro
-router.delete('/:id',authMiddleware, deleteDev);
+router.delete('/:id', deleteDev);
 
 module.exports = router;

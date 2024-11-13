@@ -17,6 +17,8 @@ router.get('/', getAllLibros);
 // Ruta para obtener un libro por ID
 router.get('/:id', getLibroById);
 
+//Funciones admin
+
 // Ruta para crear un nuevo libro
 router.post('/',authMiddleware, createLibro);
 
