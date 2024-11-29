@@ -13,7 +13,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Ruta para obtener todos los libros
-router.get('/',authMiddleware, getAllPrestamos);
+router.get('/',getAllPrestamos);
 
 // Ruta para obtener un libro por ID
 router.get('/:id',authMiddleware, getPrestamoById);

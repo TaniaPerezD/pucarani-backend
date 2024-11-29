@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const sequelize = require('./config/database');
 const libroRoutes = require('./routes/libroRoutes'); 
+const prestamoRoutes = require('./routes/prestamoRoutes');
 
 const app = express();
 
@@ -18,6 +19,7 @@ sequelize.sync().then(() => {
 
 
 app.use('/api/libros', libroRoutes); // Agrega las rutas de libros
+app.use('/api/prestamos', prestamoRoutes); // Agrega las rutas de libros
 
 module.exports = app; 
 

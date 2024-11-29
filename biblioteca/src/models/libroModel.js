@@ -22,6 +22,15 @@ const Libro = sequelize.define('Libro', {
   portada: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  pdf: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  idestado: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 3
   }
 }, {
   timestamps: false,
