@@ -5,7 +5,8 @@ const {
   getLibroById,
   createLibro,
   updateLibro,
-  deleteLibro
+  deleteLibro,
+  updateEstadoLibro
 } = require('../controllers/libroController');
 const authMiddleware = require('../middleware/authMiddleware');
 
@@ -16,6 +17,8 @@ router.get('/', getAllLibros);
 
 // Ruta para obtener un libro por ID
 router.get('/:id', getLibroById);
+
+router.put('/:id/estado', updateEstadoLibro);
 
 //Funciones admin
 

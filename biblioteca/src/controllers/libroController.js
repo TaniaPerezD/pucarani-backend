@@ -21,6 +21,27 @@ const getLibroById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updateEstadoLibro = async (req, res) => {
+  const { id } = req.params;  // ID del libro a actualizar
+  const { estado } = req.body;  // Nuevo estado que le vamos a asignar al libro
+
+  try {
+    // Buscar el libro por ID
+    const libro = await libroService.getLibroById(id);
+    
+    if (!libro) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    // Actualizar el estado del libro
+    libro.idestado = estado;  // Actualizamos el estado del libro
+    await libro.save();  // Guardamos el cambio
+
+    res.status(200).json(libro);  // Respondemos con el libro actualizado
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const createLibro = async (req, res) => {
   try {
@@ -60,5 +81,6 @@ module.exports = {
   getLibroById,
   createLibro,
   updateLibro,
-  deleteLibro
+  deleteLibro,
+  updateEstadoLibro
 };
