@@ -5,9 +5,14 @@ require('dotenv').config();
 const sequelize = require('./config/database');
 const libroRoutes = require('./routes/libroRoutes'); 
 const prestamoRoutes = require('./routes/prestamoRoutes');
+const pdfRoutes = require('./routes/pdfRoutes');
+const fileUpload = require('express-fileupload');
+
+
+
 
 const app = express();
-
+app.use(fileUpload());
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
@@ -20,6 +25,7 @@ sequelize.sync().then(() => {
 
 app.use('/api/libros', libroRoutes); // Agrega las rutas de libros
 app.use('/api/prestamos', prestamoRoutes); // Agrega las rutas de libros
+app.use('/api/pdfs', pdfRoutes); // Rutas para MinIO
 
 module.exports = app; 
 
