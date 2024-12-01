@@ -1,6 +1,6 @@
 const minioClient = require('../config/minioClient');
 
-const bucketName = 'pdf-bucket'; // Define tu bucket aquí
+const bucketName = 'pdf-bucket'; 
 
 // Subir un archivo
 const uploadPdf = async (req, res) => {
@@ -9,8 +9,8 @@ const uploadPdf = async (req, res) => {
         return res.status(400).json({ error: 'No se encontró un archivo en la solicitud' });
       }
   
-      const file = req.files.file; // Archivo enviado desde Postman
-      const fileName = file.name; // Nombre del archivo
+      const file = req.files.file; 
+      const fileName = file.name; 
       const metaData = { 'Content-Type': file.mimetype };
   
       console.log('Subiendo archivo:', fileName);
