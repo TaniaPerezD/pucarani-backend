@@ -4,7 +4,7 @@ const User = require('../models/UserModel');
 
 // Registro de usuario
 const register = async (req, res) => {
-  const { nombre, password, email } = req.body;
+  const { nombre, password, email, rol } = req.body;
 
   try {
     // Verifica si el usuario ya existe
@@ -17,7 +17,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Crear el nuevo usuario
-    const newUser = await User.create({ nombre, password_hash: hashedPassword, email });
+    const newUser = await User.create({ nombre, password_hash: hashedPassword, email, rol: rol || 'user' });
 
     res.status(201).json({ message: 'Usuario registrado exitosamente', user: newUser });
   } catch (error) {

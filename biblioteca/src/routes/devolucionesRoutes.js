@@ -7,22 +7,23 @@ const {
     updateDev,
     deleteDev
 } = require('../controllers/devolucionesController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
 // Ruta para obtener todos los libros
-router.get('/', getAllDev);
+router.get('/',authMiddleware, getAllDev);
 
 // Ruta para obtener un libro por ID
-router.get('/:id', getDevById);
+router.get('/:id',authMiddleware, getDevById);
 
 // Ruta para crear un nuevo libro
-router.post('/', createDev);
+router.post('/',authMiddleware, createDev);
 
 // Ruta para actualizar un libro
-router.put('/:id', updateDev);
+router.put('/:id',authMiddleware, updateDev);
 
 // Ruta para eliminar un libro
-router.delete('/:id', deleteDev);
+router.delete('/:id',authMiddleware, deleteDev);
 
 module.exports = router;

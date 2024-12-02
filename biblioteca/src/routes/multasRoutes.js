@@ -7,11 +7,12 @@ const {
     updateMultas,
     deleteMultas
 } = require('../controllers/multasController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
 // Ruta para obtener todos los libros
-router.get('/', getAllMultas);
+router.get('/',authMiddleware, getAllMultas);
 
 // Ruta para obtener un libro por ID
 router.get('/:id', getMultasById);
