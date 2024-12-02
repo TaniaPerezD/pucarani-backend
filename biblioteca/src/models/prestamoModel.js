@@ -18,6 +18,7 @@ const Prestamo = sequelize.define('Prestamo', {
   fecha_inicio: {
     type: DataTypes.DATEONLY,
     allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
   fecha_fin: {
     type: DataTypes.DATEONLY,

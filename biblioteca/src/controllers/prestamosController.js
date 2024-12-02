@@ -9,6 +9,27 @@ const getAllPrestamos = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updateEstadoPrestamo = async (req, res) => {
+  const { id } = req.params;  // ID del libro a actualizar
+  const { estado } = req.body;  // Nuevo estado que le vamos a asignar al libro
+
+  try {
+    // Buscar el libro por ID
+    const prestamo = await prestamoService.getPrestamoById(id);
+    
+    if (!prestamo) {
+      return res.status(404).json({ message: 'Prestamo no encontrado' });
+    }
+
+    // Actualizar el estado del libro
+    prestamo.estados_idestado = estado;  // Actualizamos el estado del libro
+    await prestamo.save();  // Guardamos el cambio
+
+    res.status(200).json(prestamo);  // Respondemos con el libro actualizado
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const getPrestamoById = async (req, res) => {
   try {
@@ -60,5 +81,6 @@ module.exports = {
   getPrestamoById,
   createPrestamo,
   updatePrestamo,
-  deletePrestamo
+  deletePrestamo,
+  updateEstadoPrestamo
 };
