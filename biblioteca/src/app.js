@@ -6,6 +6,7 @@ const sequelize = require('./config/database');
 const libroRoutes = require('./routes/libroRoutes'); 
 const prestamoRoutes = require('./routes/prestamoRoutes');
 const pdfRoutes = require('./routes/pdfRoutes');
+const portadasRoutes = require('./routes/portadasRoutes');
 const fileUpload = require('express-fileupload');
 
 
@@ -26,6 +27,7 @@ sequelize.sync().then(() => {
 app.use('/api/libros', libroRoutes); // Agrega las rutas de libros
 app.use('/api/prestamos', prestamoRoutes); // Agrega las rutas de libros
 app.use('/api/pdfs', pdfRoutes); // Rutas para MinIO
+app.use('/api/portadas', portadasRoutes); // Rutas para MinIO
 
 module.exports = app; 
 
