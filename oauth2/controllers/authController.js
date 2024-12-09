@@ -73,5 +73,27 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ message: 'Error en el servidor', error: error.message });
   }
 };
+// Obtener todos los usuarios registrados
+const UpdateUser = async (req, res) => {
+  const { id } = req.params;  // ID del libro a actualizar
+  const { estado } = req.body;  // Nuevo estado que le vamos a asignar al libro
 
-module.exports = { register, login, getAllUsers };
+  try {
+    // Obtener todos los usuarios
+    const user = await User.findOne({where: {id}});
+
+    // Si no hay usuarios, responde con un mensaje
+    if (user.length === 0) {
+      return res.status(404).json({ message: 'No hay usuarios registrados' });
+    }
+    user.activo = estado;  // Actualizamos el estado del libro
+    await user.save();  // Guardamos el cambio
+    // Responde con los usuarios encontrados
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error en el servidor', error: error.message });
+  }
+};
+
+module.exports = { register, login, getAllUsers,UpdateUser };

@@ -6,4 +6,6 @@ const authController = require('../controllers/authController');
 // Ruta para obtener todos los usuarios
 router.get('/', authController.getAllUsers);
 
+router.put('/:id/estado', authController.UpdateUser)
+
 module.exports = router;
